@@ -1,0 +1,23 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+
+Host: https://teleworker.fun
+Sitemap: https://teleworker.fun/sitemap.xml

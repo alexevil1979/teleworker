@@ -4,8 +4,8 @@
 
 | URL | Назначение |
 |-----|------------|
-| `/robots.txt` | Индексация только публичных страниц |
-| `/sitemap.xml` | `/`, `/shop`, `/demo` |
+| `/robots.txt` | Статический файл в `public/` (генерируется при `npm run build`) |
+| `/sitemap.xml` | Статический XML — то же |
 | `/manifest.webmanifest` | PWA-метаданные |
 | `/opengraph-image` | OG-картинка 1200×630 |
 | JSON-LD | Organization, WebSite, SoftwareApplication, FAQPage (главная) |
@@ -28,7 +28,12 @@ YANDEX_VERIFICATION=код_опционально
 2. Добавить ресурс → **URL prefix** → `https://teleworker.fun`  
 3. Подтверждение: **HTML tag** → скопировать `content="..."` в `GOOGLE_SITE_VERIFICATION` (только значение content)  
 4. **Sitemaps** → отправить: `https://teleworker.fun/sitemap.xml`  
-5. **URL inspection** → проверить главную → **Request indexing**
+5. Если статус **«Не получено»**, а в браузере sitemap открывается:
+   - Удалите старую запись sitemap в GSC → добавьте URL снова
+   - На сервере: `git pull && npm run build && pm2 restart teleagent`
+   - Проверка от имени Googlebot: `bash scripts/verify-seo-crawl.sh`
+6. **URL inspection** → `https://teleworker.fun/sitemap.xml` → **Проверить опубликованную страницу**
+7. **URL inspection** → главная → **Запросить индексирование**
 
 ## Проверка
 

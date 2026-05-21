@@ -23,6 +23,9 @@
 # misc
 .DS_Store
 logs/*.log
+
+# SEO static генерируются при build — коммитим шаблоны в public/
+# (перезаписываются scripts/generate-seo-static.ts)
 *.pem
 
 # debug
