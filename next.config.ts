@@ -3,6 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   outputFileTracingRoot: process.cwd(),
+  outputFileTracingIncludes: {
+    "/*": [
+      "./node_modules/.prisma/**/*",
+      "./node_modules/@prisma/client/**/*",
+      "./prisma/schema.prisma",
+    ],
+  },
   images: {
     remotePatterns: [{ protocol: "https", hostname: "**.telegram.org" }],
   },

@@ -11,9 +11,10 @@ import type { Product } from "@prisma/client";
 type Props = {
   products: Product[];
   isLoggedIn: boolean;
+  dbError?: boolean;
 };
 
-export function ShopCatalog({ products, isLoggedIn }: Props) {
+export function ShopCatalog({ products, isLoggedIn, dbError }: Props) {
   const [added, setAdded] = useState<string | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
 
@@ -32,10 +33,22 @@ export function ShopCatalog({ products, isLoggedIn }: Props) {
     setLoading(null);
   }
 
+  if (dbError) {
+    return (
+      <p className="mt-12 text-center text-red-300/90">
+        Ошибка подключения к базе данных. Проверьте PostgreSQL и{" "}
+        <code className="text-sky-400">DATABASE_URL</code> в <code className="text-sky-400">.env</code>
+        , затем <code className="text-sky-400">pm2 restart teleagent</code>.
+      </p>
+    );
+  }
+
   if (!products.length) {
     return (
       <p className="mt-12 text-center text-white/50">
-        Каталог загружается. Запустите <code className="text-sky-400">npm run db:seed</code>
+        Товары не найдены. На сервере выполните:{" "}
+        <code className="text-sky-400">npm run db:seed</code> и{" "}
+        <code className="text-sky-400">pm2 restart teleagent</code>
       </p>
     );
   }

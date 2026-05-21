@@ -3,8 +3,9 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { prisma } from "@/lib/prisma";
 import { ShopCatalog } from "@/components/shop/catalog";
 import { auth } from "@/auth";
-
 import { buildPageMetadata } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = buildPageMetadata({
   title: "Магазин AI-агентов",
@@ -15,12 +16,19 @@ export const metadata = buildPageMetadata({
 });
 
 export default async function ShopPage() {
-  const products = await prisma.product.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-  }).catch(() => []);
-
   const session = await auth();
+  let products: Awaited<ReturnType<typeof prisma.product.findMany>> = [];
+  let dbError = false;
+
+  try {
+    products = await prisma.product.findMany({
+      where: { isActive: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch (e) {
+    console.error("[shop] database error:", e);
+    dbError = true;
+  }
 
   return (
     <>
@@ -31,7 +39,7 @@ export default async function ShopPage() {
           <p className="mt-2 text-white/60">
             Выберите тип аккаунта. После оплаты — автоматическая выдача в кабинет.
           </p>
-          <ShopCatalog products={products} isLoggedIn={!!session} />
+          <ShopCatalog products={products} isLoggedIn={!!session} dbError={dbError} />
         </div>
       </main>
       <SiteFooter />
