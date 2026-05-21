@@ -80,7 +80,7 @@ pm2 save
    ```
 4. `.env`: `DATABASE_URL`, `AUTH_SECRET` (≥32 символа), `AUTH_URL`, `NEXT_PUBLIC_APP_URL`
 
-Приложение слушает порт **3005** (чтобы не конфликтовать с другими Next.js на 3000, например nio-frontend).
+Приложение слушает порт **3005** на **0.0.0.0** (не на имени хоста `servv` — иначе Apache получит 503 при прокси на `127.0.0.1`).
 
 ## 6. Apache + SSL (teleworker.fun)
 

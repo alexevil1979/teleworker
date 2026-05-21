@@ -21,6 +21,7 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: "3005",
+        HOSTNAME: "0.0.0.0",
       },
       error_file: path.join(appDir, "logs/pm2-error.log"),
       out_file: path.join(appDir, "logs/pm2-out.log"),

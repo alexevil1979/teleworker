@@ -6,7 +6,8 @@ cd "$ROOT"
 
 export NODE_ENV=production
 export PORT="${PORT:-3005}"
-export HOSTNAME="${HOSTNAME:-0.0.0.0}"
+# Важно: на Linux HOSTNAME часто = имя сервера (servv), тогда Next не слушает 127.0.0.1
+export HOSTNAME="0.0.0.0"
 
 if [ -f .next/standalone/server.js ]; then
   bash scripts/postbuild-standalone.sh

@@ -19,7 +19,11 @@ else
 fi
 echo ""
 
-echo "=== 3. curl backend (локально) ==="
+echo "=== 3. HOSTNAME в PM2 (должен быть 0.0.0.0) ==="
+pm2 env teleagent 2>/dev/null | grep -E '^HOSTNAME=' || echo "(pm2 env недоступен)"
+echo ""
+
+echo "=== 4. curl backend (локально) ==="
 if curl -sf -o /dev/null -m 5 "http://127.0.0.1:${PORT}/"; then
   echo "OK: http://127.0.0.1:${PORT}/"
   curl -sI "http://127.0.0.1:${PORT}/sitemap.xml" | head -5
