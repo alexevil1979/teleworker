@@ -35,9 +35,18 @@ npm install
 npm run db:push
 npm run db:seed
 npm run build
+test -f .next/BUILD_ID && echo "build OK"
+```
+
+Или всё сразу (build + pm2):
+
+```bash
+bash scripts/deploy-vps.sh
 ```
 
 Если `npm ci` падает с `Missing: @emnapi/*` — выполните `git pull` и `npm install`.
+
+Если PM2 пишет `production-start-no-build-id` — не запущен `npm run build` в этой папке.
 
 ## 5. PM2
 
