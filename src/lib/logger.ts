@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { notifyAdminEvent } from "@/lib/admin-notifications";
 
 type AuditParams = {
   userId?: string | null;
@@ -21,6 +22,13 @@ export async function auditLog(params: AuditParams) {
         metadata: params.metadata as Prisma.InputJsonValue | undefined,
         ip: params.ip ?? undefined,
       },
+    });
+    void notifyAdminEvent({
+      action: params.action,
+      entity: params.entity,
+      entityId: params.entityId,
+      userId: params.userId,
+      metadata: params.metadata,
     });
   } catch (e) {
     console.error("[auditLog]", e);

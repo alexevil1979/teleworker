@@ -287,7 +287,7 @@ model AuditLog {
 }
 
 model SiteSetting {
-  id    String @id @default("main")
+  id    String @id @default(cuid())
   key   String @unique
   value Json
 }

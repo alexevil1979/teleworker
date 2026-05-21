@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { logInfo } from "@/lib/logger";
+import { auditLog } from "@/lib/logger";
 
 export async function provisionAgentForOrder(orderId: string) {
   const order = await prisma.order.findUnique({
@@ -24,7 +24,17 @@ export async function provisionAgentForOrder(orderId: string) {
         },
       });
       created.push(agent);
-      logInfo("agent.provisioned", { agentId: agent.id, orderId });
+      await auditLog({
+        userId: order.userId,
+        action: "agent.provisioned",
+        entity: "agent",
+        entityId: agent.id,
+        metadata: {
+          orderId,
+          product: item.product.name,
+          email: order.user.email ?? undefined,
+        },
+      });
     }
   }
 

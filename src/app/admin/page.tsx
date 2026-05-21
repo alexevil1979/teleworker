@@ -80,6 +80,9 @@ export default async function AdminDashboardPage() {
         <Link href="/admin/products" className="text-sky-400 hover:underline">
           Товары и тарифы
         </Link>
+        <Link href="/admin/notifications" className="text-amber-400 hover:underline">
+          Telegram-уведомления
+        </Link>
       </div>
     </div>
   );
