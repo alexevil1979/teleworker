@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "prisma generate && tsx scripts/generate-seo-static.ts && next build && bash scripts/postbuild-standalone.sh",
     "seo:generate": "tsx scripts/generate-seo-static.ts",
+    "restart": "bash scripts/restart-teleagent.sh",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",

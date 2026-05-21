@@ -8,8 +8,9 @@ if [ ! -f .next/standalone/server.js ]; then
   exit 0
 fi
 
-echo "==> postbuild-standalone: public + static"
+echo "==> postbuild-standalone: public + static + .env"
 mkdir -p .next/standalone/.next
 cp -r public .next/standalone/public
 cp -r .next/static .next/standalone/.next/static
-echo "OK: standalone готов"
+[ -f .env ] && cp -f .env .next/standalone/.env
+echo "OK: standalone готов ($(pwd)/.next/standalone)"
