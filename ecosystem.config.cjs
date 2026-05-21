@@ -8,9 +8,8 @@ module.exports = {
     {
       name: "teleagent",
       cwd: appDir,
-      script: path.join(appDir, "node_modules/next/dist/bin/next"),
-      args: "start -p 3005",
-      interpreter: "node",
+      script: path.join(appDir, "scripts/start-production.sh"),
+      interpreter: "bash",
       instances: 1,
       exec_mode: "fork",
       autorestart: true,
