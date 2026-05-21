@@ -54,7 +54,7 @@ pm2 startup
 ```bash
 mkdir -p logs
 pm2 delete teleagent 2>/dev/null || true
-# Убедитесь, что порт 3000 свободен: ss -tlnp | grep 3000
+# TeleAgent использует 3005. Диагностика 3000: bash scripts/find-port-3000.sh
 pm2 start ecosystem.config.cjs
 pm2 save
 ```
@@ -71,7 +71,7 @@ pm2 save
    ```
 4. `.env`: `DATABASE_URL`, `AUTH_SECRET` (≥32 символа), `AUTH_URL`, `NEXT_PUBLIC_APP_URL`
 
-Приложение слушает порт **3000**.
+Приложение слушает порт **3005** (чтобы не конфликтовать с другими Next.js на 3000, например nio-frontend).
 
 ## 6. Apache reverse proxy + SSL
 
@@ -83,8 +83,8 @@ pm2 save
     # SSLCertificateKeyFile /path/to/privkey.pem
 
     ProxyPreserveHost On
-    ProxyPass / http://127.0.0.1:3000/
-    ProxyPassReverse / http://127.0.0.1:3000/
+    ProxyPass / http://127.0.0.1:3005/
+    ProxyPassReverse / http://127.0.0.1:3005/
 </VirtualHost>
 ```
 
