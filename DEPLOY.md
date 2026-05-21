@@ -18,7 +18,31 @@ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install -y nodejs
 ```
 
-## 3. Переменные окружения
+## 3. PostgreSQL (обязательно)
+
+Проект **не использует MySQL**. На VPS:
+
+```bash
+cd /ssd/www/teleworker
+sudo bash scripts/setup-postgres.sh
+```
+
+В `.env`:
+
+```env
+DATABASE_URL=postgresql://teleagent:teleagent@127.0.0.1:5432/teleagent?schema=public
+```
+
+```bash
+npm run db:push
+npm run db:seed
+```
+
+Проверка: `docker ps | grep teleagent-postgres`
+
+Альтернатива — облачный [Neon](https://neon.tech): скопируйте `DATABASE_URL` в `.env`.
+
+## 4. Переменные окружения
 
 ```bash
 cp .env.example .env
@@ -27,7 +51,7 @@ nano .env
 
 Обязательно: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL=https://teleworker.fun`, `NEXT_PUBLIC_APP_URL=https://teleworker.fun`
 
-## 4. Сборка
+## 5. Сборка
 
 ```bash
 # На Linux предпочтительно npm install (lockfile с optional deps для tailwind/oxide)
@@ -48,7 +72,7 @@ bash scripts/deploy-vps.sh
 
 Если PM2 пишет `production-start-no-build-id` — не запущен `npm run build` в этой папке.
 
-## 5. PM2
+## 6. PM2
 
 ```bash
 npm install -g pm2
@@ -82,7 +106,7 @@ pm2 save
 
 Приложение слушает порт **3005** на **0.0.0.0** (не на имени хоста `servv` — иначе Apache получит 503 при прокси на `127.0.0.1`).
 
-## 6. Apache + SSL (teleworker.fun)
+## 7. Apache + SSL (teleworker.fun)
 
 **DNS:** A-запись `teleworker.fun` и `www.teleworker.fun` → IP сервера.
 
@@ -118,12 +142,12 @@ sudo systemctl reload apache2
 
 Конфиги: `deploy/apache/teleworker.fun.conf`
 
-## 7. Webhooks
+## 8. Webhooks
 
 - ЮKassa: `https://teleworker.fun/api/payments/yookassa/webhook`
 - Stripe: `https://teleworker.fun/api/payments/stripe/webhook`
 
-## 8. Обновление
+## 9. Обновление
 
 ```bash
 cd /ssd/www/teleworker

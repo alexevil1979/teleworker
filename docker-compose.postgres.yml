@@ -1,0 +1,22 @@
+# Только PostgreSQL для VPS (приложение через PM2, не в Docker)
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: teleagent-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: teleagent
+      POSTGRES_PASSWORD: teleagent
+      POSTGRES_DB: teleagent
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - teleagent_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U teleagent -d teleagent"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  teleagent_pgdata:
