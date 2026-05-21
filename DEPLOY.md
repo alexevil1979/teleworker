@@ -51,6 +51,14 @@ nano .env
 
 Обязательно: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL=https://teleworker.fun`, `NEXT_PUBLIC_APP_URL=https://teleworker.fun`
 
+На VPS (если Telegram API блокируется) — как в worksearch, все вызовы `api.telegram.org` идут через прокси:
+
+```env
+TELEGRAM_PROXY=socks5h://127.0.0.1:1080
+TELEGRAM_PROXY_TYPE=auto
+TELEGRAM_PROXY_CONNECT_TIMEOUT=10
+```
+
 ## 5. Сборка
 
 ```bash
