@@ -1,4 +1,4 @@
-const TELEGRAM_API = "https://api.telegram.org";
+import { telegramApiFetch } from "@/lib/telegram-proxy";
 
 export async function sendTelegramMessage(
   botToken: string,
@@ -6,7 +6,7 @@ export async function sendTelegramMessage(
   text: string
 ): Promise<{ ok: boolean; error?: string }> {
   try {
-    const res = await fetch(`${TELEGRAM_API}/bot${botToken}/sendMessage`, {
+    const res = await telegramApiFetch(`/bot${botToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
