@@ -45,10 +45,17 @@ export function AdminNotificationsForm() {
   async function testSend() {
     setTesting(true);
     setMessage(null);
-    const res = await fetch("/api/admin/notifications/test", { method: "POST" });
-    const data = await res.json();
-    setTesting(false);
-    setMessage(res.ok ? "Тестовое сообщение отправлено" : (data.error ?? "Ошибка отправки"));
+    try {
+      const res = await fetch("/api/admin/notifications/test", { method: "POST" });
+      const data = await res.json().catch(() => ({}));
+      setMessage(
+        res.ok ? "Тестовое сообщение отправлено" : (data.error ?? `Ошибка ${res.status}`)
+      );
+    } catch {
+      setMessage("Ошибка: не удалось связаться с сервером");
+    } finally {
+      setTesting(false);
+    }
   }
 
   if (loading) {
@@ -128,7 +135,15 @@ export function AdminNotificationsForm() {
         </div>
 
         {message && (
-          <p className={message.includes("Ошибка") ? "text-red-400" : "text-emerald-400"}>{message}</p>
+          <p
+            className={
+              message.includes("отправлено") || message === "Сохранено"
+                ? "text-emerald-400"
+                : "text-red-400"
+            }
+          >
+            {message}
+          </p>
         )}
       </CardContent>
     </Card>
