@@ -82,25 +82,41 @@ pm2 save
 
 Приложение слушает порт **3005** (чтобы не конфликтовать с другими Next.js на 3000, например nio-frontend).
 
-## 6. Apache reverse proxy + SSL
+## 6. Apache + SSL (teleworker.fun)
 
-```apache
-<VirtualHost *:443>
-    ServerName teleworker.fun
-    SSLEngine on
-    # SSLCertificateFile /path/to/fullchain.pem
-    # SSLCertificateKeyFile /path/to/privkey.pem
+**DNS:** A-запись `teleworker.fun` и `www.teleworker.fun` → IP сервера.
 
-    ProxyPreserveHost On
-    ProxyPass / http://127.0.0.1:3005/
-    ProxyPassReverse / http://127.0.0.1:3005/
-</VirtualHost>
+**`.env` на сервере** (обязательно HTTPS):
+
 ```
+NEXT_PUBLIC_APP_URL=https://teleworker.fun
+AUTH_URL=https://teleworker.fun
+```
+
+После смены `.env`: `pm2 restart teleagent`
+
+### Автоматическая установка (Let's Encrypt)
 
 ```bash
-sudo a2enmod proxy proxy_http ssl
+cd /ssd/www/teleworker
+git pull origin main
+export CERTBOT_EMAIL=ваш@email.com
+sudo bash scripts/setup-apache-ssl.sh
+```
+
+### Вручную
+
+```bash
+sudo cp /ssd/www/teleworker/deploy/apache/teleworker.fun.conf \
+  /etc/apache2/sites-available/teleworker.fun.conf
+sudo a2enmod proxy proxy_http ssl headers rewrite
+sudo a2ensite teleworker.fun.conf
+sudo certbot --apache -d teleworker.fun -d www.teleworker.fun
+sudo apache2ctl configtest
 sudo systemctl reload apache2
 ```
+
+Конфиги: `deploy/apache/teleworker.fun.conf`
 
 ## 7. Webhooks
 
