@@ -30,11 +30,14 @@ nano .env
 ## 4. Сборка
 
 ```bash
-npm ci
+# На Linux предпочтительно npm install (lockfile с optional deps для tailwind/oxide)
+npm install
 npm run db:push
 npm run db:seed
 npm run build
 ```
+
+Если `npm ci` падает с `Missing: @emnapi/*` — выполните `git pull` и `npm install`.
 
 ## 5. PM2
 

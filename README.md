@@ -20,6 +20,7 @@ cp .env.example .env
 # Заполните DATABASE_URL, AUTH_SECRET
 
 npm install
+# на VPS не используйте npm ci, если lockfile ругается на @emnapi — только npm install
 npm run db:push
 npm run db:seed
 npm run dev
