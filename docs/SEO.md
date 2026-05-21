@@ -38,10 +38,17 @@ YANDEX_VERIFICATION=код_опционально
 ## Проверка
 
 ```bash
-curl -s https://teleworker.fun/robots.txt
-curl -s https://teleworker.fun/sitemap.xml
-curl -sI https://teleworker.fun | grep -i cache
+# Сначала backend, потом домен
+bash scripts/diagnose-vps.sh
+bash scripts/verify-seo-crawl.sh
 ```
+
+Если **503 Service Unavailable** от Apache:
+
+1. `curl -I http://127.0.0.1:3005` — должен быть **200**
+2. Если нет: `npm run build && pm2 restart teleagent`
+3. Apache должен проксировать на **3005** (не 3000): `sudo bash scripts/fix-apache-proxy.sh`
+4. Лог: `tail -20 /var/log/apache2/teleworker.fun-error.log`
 
 [Rich Results Test](https://search.google.com/test/rich-results?url=https://teleworker.fun)  
 [PageSpeed Insights](https://pagespeed.web.dev/?url=https://teleworker.fun)
