@@ -43,10 +43,13 @@ npm run build
 
 ```bash
 npm install -g pm2
-pm2 start npm --name teleagent -- start
+pm2 delete teleagent 2>/dev/null || true
+pm2 start ecosystem.config.cjs
 pm2 save
 pm2 startup
 ```
+
+Запускать **только после** успешного `npm run build`.
 
 Приложение слушает порт **3000**.
 
