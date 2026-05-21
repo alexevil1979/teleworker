@@ -51,6 +51,26 @@ pm2 startup
 
 Запускать **только после** успешного `npm run build`.
 
+```bash
+mkdir -p logs
+pm2 delete teleagent 2>/dev/null || true
+# Убедитесь, что порт 3000 свободен: ss -tlnp | grep 3000
+pm2 start ecosystem.config.cjs
+pm2 save
+```
+
+### PM2: много рестартов (↺) и CPU 100%
+
+1. Логи: `pm2 logs teleagent --lines 80`
+2. Сборка есть: `test -f .next/BUILD_ID && echo OK || npm run build`
+3. Порт занят другим процессом:
+   ```bash
+   ss -tlnp | grep 3000
+   kill <PID>   # не teleagent
+   pm2 restart teleagent
+   ```
+4. `.env`: `DATABASE_URL`, `AUTH_SECRET` (≥32 символа), `AUTH_URL`, `NEXT_PUBLIC_APP_URL`
+
 Приложение слушает порт **3000**.
 
 ## 6. Apache reverse proxy + SSL
