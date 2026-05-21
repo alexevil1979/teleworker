@@ -31,6 +31,7 @@ if [ ! -f .next/BUILD_ID ]; then
 fi
 
 echo "==> BUILD_ID: $(cat .next/BUILD_ID)"
+bash scripts/postbuild-standalone.sh
 
 mkdir -p logs
 echo "==> pm2"
