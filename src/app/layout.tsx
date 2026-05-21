@@ -1,7 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import {
+  SITE_NAME,
+  SITE_URL,
+  SITE_DOMAIN,
+  DEFAULT_DESCRIPTION,
+  DEFAULT_KEYWORDS,
+  canonicalUrl,
+} from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,29 +21,70 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#070d18" },
+    { media: "(prefers-color-scheme: light)", color: "#070d18" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://teleworker.fun"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "TeleAgent — AI Telegram-аккаунты под ключ",
-    template: "%s | TeleAgent",
+    default: `${SITE_NAME} — AI Telegram-аккаунты под ключ`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Платформа готовых автоматизированных Telegram-аккаунтов с ИИ: диалоги, RAG, активность в группах. Gigachat, Grok, Claude.",
-  keywords: ["Telegram", "AI", "бот", "Gigachat", "автоматизация", "TeleAgent"],
+  description: DEFAULT_DESCRIPTION,
+  keywords: DEFAULT_KEYWORDS,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "technology",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: canonicalUrl(),
+    languages: { "ru-RU": canonicalUrl() },
+  },
   openGraph: {
-    title: "TeleAgent — живые Telegram-аккаунты с ИИ",
-    description: "Покупайте готовые AI-агенты для Telegram. Оплата ЮKassa и Stripe.",
-    url: "https://teleworker.fun",
-    siteName: "TeleAgent",
-    locale: "ru_RU",
     type: "website",
+    locale: "ru_RU",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — живые Telegram-аккаунты с ИИ`,
+    description: DEFAULT_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "TeleAgent",
-    description: "AI Telegram-аккаунты для бизнеса",
+    title: SITE_NAME,
+    description: DEFAULT_DESCRIPTION,
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    yandex: process.env.YANDEX_VERIFICATION || undefined,
+  },
+  other: {
+    "geo.region": "RU",
+    "content-language": "ru",
+  },
 };
 
 export default function RootLayout({
@@ -45,6 +94,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className="dark">
+      <head>
+        <link rel="dns-prefetch" href={`//${SITE_DOMAIN}`} />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}>
         <Providers>{children}</Providers>
       </body>

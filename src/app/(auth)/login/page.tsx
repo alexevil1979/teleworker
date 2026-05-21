@@ -4,7 +4,13 @@ import { Bot } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoginForm } from "@/components/auth/login-form";
 
-export const metadata = { title: "Вход" };
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Вход",
+  path: "/login",
+  noIndex: true,
+});
 
 export default function LoginPage() {
   return (

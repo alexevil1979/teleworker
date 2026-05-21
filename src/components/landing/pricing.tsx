@@ -39,9 +39,11 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="py-24">
+    <section id="pricing" className="py-24" aria-labelledby="pricing-heading">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-3xl font-bold text-white md:text-4xl">Тарифы</h2>
+        <h2 id="pricing-heading" className="text-center text-3xl font-bold text-white md:text-4xl">
+          Тарифы
+        </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-white/60">
           Подписка с ежемесячным продлением. Оплата через ЮKassa или Stripe.
         </p>

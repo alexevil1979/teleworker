@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL, SITEMAP_ROUTES } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_APP_URL ?? "https://teleworker.fun";
-  const routes = ["", "/shop", "/demo", "/login", "/register"];
-  return routes.map((path) => ({
-    url: `${base}${path}`,
-    lastModified: new Date(),
-    changeFrequency: path === "" ? "weekly" : "monthly",
-    priority: path === "" ? 1 : 0.8,
+  const lastModified = new Date();
+
+  return SITEMAP_ROUTES.map(({ path, changeFrequency, priority }) => ({
+    url: path ? `${SITE_URL}${path}` : SITE_URL,
+    lastModified,
+    changeFrequency,
+    priority,
   }));
 }

@@ -4,7 +4,15 @@ import { prisma } from "@/lib/prisma";
 import { ShopCatalog } from "@/components/shop/catalog";
 import { auth } from "@/auth";
 
-export const metadata = { title: "Магазин AI-агентов" };
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Магазин AI-агентов",
+  description:
+    "Каталог готовых Telegram AI-аккаунтов: Starter, Pro, Business. Оплата ЮKassa и Stripe, автоматическая выдача в личный кабинет.",
+  path: "/shop",
+  keywords: ["купить Telegram бота", "AI агент магазин", "Telegram автоматизация"],
+});
 
 export default async function ShopPage() {
   const products = await prisma.product.findMany({

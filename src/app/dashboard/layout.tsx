@@ -1,6 +1,9 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
+import { NOINDEX_METADATA } from "@/lib/seo";
+
+export const metadata = NOINDEX_METADATA;
 
 export default async function DashboardLayout({
   children,

@@ -4,7 +4,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 
-export const metadata = { title: "Демо" };
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Демо AI-агента в Telegram",
+  description:
+    "Попробуйте демо TeleAgent в Telegram: живые ответы, сценарии продаж и пример работы AI-аккаунта.",
+  path: "/demo",
+});
 
 export default function DemoPage() {
   const demoBot = process.env.NEXT_PUBLIC_TELEGRAM_DEMO_LINK ?? "https://t.me/";

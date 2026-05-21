@@ -3,7 +3,13 @@ import { Bot } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { RegisterForm } from "@/components/auth/register-form";
 
-export const metadata = { title: "Регистрация" };
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Регистрация",
+  path: "/register",
+  noIndex: true,
+});
 
 export default function RegisterPage() {
   return (

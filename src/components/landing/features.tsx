@@ -38,9 +38,11 @@ const items = [
 
 export function Features() {
   return (
-    <section id="features" className="py-24 bg-white/[0.02]">
+    <section id="features" className="py-24 bg-white/[0.02]" aria-labelledby="features-heading">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-3xl font-bold text-white">Возможности платформы</h2>
+        <h2 id="features-heading" className="text-center text-3xl font-bold text-white">
+          Возможности платформы
+        </h2>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item, i) => (
             <motion.div
